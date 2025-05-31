@@ -21,33 +21,38 @@ import br.com.agcs.dto.TicketDTOUpdate;
 import br.com.agcs.service.TicketService;
 import jakarta.validation.Valid;
 
-
 @RestController
 @RequestMapping("/api/tickets")
 public class TicketController {
-    private static final Logger logger = LoggerFactory.getLogger(TicketController.class);
+	private static final Logger logger = LoggerFactory.getLogger(TicketController.class);
 
-    @Autowired
-    private TicketService ticketService;
+	@Autowired
+	private TicketService ticketService;
 
-    @PostMapping
+	@PostMapping
     public ResponseEntity<TicketDTOResponse> create(@Valid @RequestBody TicketDTOCreate newTicket) {
-    	logger.info("[POST] Novo ticket recebido");
+		
+        logger.info("[POST] Novo ticket recebido");
         TicketDTOResponse ticketCreated = ticketService.save(newTicket);
         return ResponseEntity.status(HttpStatus.CREATED).body(ticketCreated);
+        
     }
 
     @GetMapping
     public List<TicketDTOResponse> list() {
+    	
         logger.info("[GET] Listando todos os tickets");
         return ticketService.listAll();
+        
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<TicketDTOResponse> update(@PathVariable Long id, @Valid @RequestBody TicketDTOUpdate updateTicket) {
+    	
         logger.info("[PUT] Atualizando o ticket ID: {}", id);
         TicketDTOResponse ticketUpdated = ticketService.update(id, updateTicket);
         return ResponseEntity.ok(ticketUpdated);
+        
     }
 
 }

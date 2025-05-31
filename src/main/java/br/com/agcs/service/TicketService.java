@@ -13,6 +13,7 @@ import br.com.agcs.dto.TicketDTOCreate;
 import br.com.agcs.dto.TicketDTOResponse;
 import br.com.agcs.dto.TicketDTOUpdate;
 import br.com.agcs.entity.Ticket;
+import br.com.agcs.exception.TicketNotFoundException;
 import br.com.agcs.repository.TicketRepository;
 import jakarta.transaction.Transactional;
 
@@ -79,11 +80,7 @@ public class TicketService {
     public TicketDTOResponse update(Long id, TicketDTOUpdate updateTicket) {
         logger.info("Atualizando ticket ID: {}", id);
 
-        Ticket ticket = repository.findById(id)
-            .orElseThrow(() -> {
-                logger.error("Ticket não encontrado com ID: {}", id);
-                return new IllegalArgumentException("Ticket não encontrado");
-            });
+        Ticket ticket = repository.findById(id).orElseThrow(() -> new TicketNotFoundException(id));
 
         ticket.setTitle(updateTicket.title());
         ticket.setDescription(updateTicket.description());
