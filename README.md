@@ -191,3 +191,50 @@ Para acessar o banco de dados H2 pelo console: *http://localhost:8086/h2-console
 	  "databaseStatus": "UP"
 	}
 ```
+
+---
+# Extras
+
+## Executando a Aplicação em um Container Docker
+
+Como um recurso adicional, o repositório do projeto inclui a possibilidade de subir a aplicação em um container Docker, facilitando a implantação em diferentes ambientes. 
+
+### Requisitos
+
+Para executar a aplicação em um container Docker, os seguintes requisitos devem ser atendidos:
+
+- **Docker**: Versão mais atualizada (Docker 24.x ou superior). Você pode verificar sua versão com `docker --version` e atualizar, se necessário, seguindo as instruções em [docker.com](https://docs.docker.com/engine/install/).
+
+- **Sistema Operacional**: Máquina Linux (recomendado Ubuntu 22.04 ou superior, ou outra distribuição compatível). O script foi testado em ambientes Linux, mas pode funcionar em outros sistemas (ex.: macOS, Windows com WSL2) com ajustes.
+
+- **Maven**: Necessário para compilar a aplicação localmente (versão 3.8.x ou superior). Verifique com a versão com `mvn --version`.
+
+- **Git**: Para clonar o repositório.
+
+- **Acesso à Internet**: Para baixar a imagem base `eclipse-temurin:17-jre-alpine` do Docker Hub e as dependências do Maven.
+
+### Passo a Passo para Executar o Script
+
+1. Com o repositório já baixado acesse a pasta do projeto.
+
+2. Certifique-se de que o script `build-and-run.sh` tem permissões de execução:
+```bash
+chmod +x build-and-run.sh
+```
+3. Execute o Script `build-and-run.sh`:
+```bash
+./build-and-run.sh
+```
+O script automatiza todo o processo: executa os testes, compila a aplicação, constrói a imagem Docker e inicia o container.
+
+Após a execução do script, a aplicação estará disponível em `http://localhost:8086`
+
+
+### Gerenciamento do Container
+
+O script exibe instruções para gerenciar o container ao final da execução:
+
+- Logs do Container: `docker logs agcs-service-container`
+- Parar o container: `docker stop agcs-service-container`
+- Remover o container: `docker rm agcs-service-container`
+- Remover a imagem: `docker rmi agcs-service:latest`
