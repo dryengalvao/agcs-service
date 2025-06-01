@@ -21,6 +21,18 @@ import br.com.agcs.dto.TicketDTOUpdate;
 import br.com.agcs.service.TicketService;
 import jakarta.validation.Valid;
 
+/**
+ * Controlador REST responsável por expor os endpoints relacionados aos Tickets.
+ * 
+ * Endpoints disponíveis:
+ * - POST /api/tickets     → Criação de um novo ticket
+ * - GET  /api/tickets     → Listagem de todos os tickets
+ * - PUT  /api/tickets/{id} → Atualização de um ticket existente
+ * 
+ * Observação:
+ * - As validações de obrigatoriedade e tamanho dos campos do Ticket são tratados nos DTOs específicos de cada endpoint
+ */
+
 @RestController
 @RequestMapping("/api/tickets")
 public class TicketController {
@@ -32,7 +44,7 @@ public class TicketController {
 	@PostMapping
     public ResponseEntity<TicketDTOResponse> create(@Valid @RequestBody TicketDTOCreate newTicket) {
 		
-        logger.info("[POST] Novo ticket recebido");
+        logger.info("[POST] Solicitação para criação de um novo ticket recebida");
         TicketDTOResponse ticketCreated = ticketService.save(newTicket);
         return ResponseEntity.status(HttpStatus.CREATED).body(ticketCreated);
         
@@ -41,7 +53,7 @@ public class TicketController {
     @GetMapping
     public List<TicketDTOResponse> list() {
     	
-        logger.info("[GET] Listando todos os tickets");
+        logger.info("[GET] Solicitação para listagem de todos os tickets recebida");
         return ticketService.listAll();
         
     }
@@ -49,7 +61,7 @@ public class TicketController {
     @PutMapping("/{id}")
     public ResponseEntity<TicketDTOResponse> update(@PathVariable Long id, @Valid @RequestBody TicketDTOUpdate updateTicket) {
     	
-        logger.info("[PUT] Atualizando o ticket ID: {}", id);
+        logger.info("[PUT] Solicitação para atualização do ticket ID: {} recebida", id);
         TicketDTOResponse ticketUpdated = ticketService.update(id, updateTicket);
         return ResponseEntity.ok(ticketUpdated);
         

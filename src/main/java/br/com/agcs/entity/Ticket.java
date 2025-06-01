@@ -9,8 +9,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ * Entidade que representa um Ticket registrado no sistema. Cada ticket possui
+ * informações básicas como título, descrição, categoria e sentimento conforme
+ * os requisitos solicitados.
+ * 
+ */
+
 @Entity
-@Table(name="tickets")
+@Table(name = "tickets")
 public class Ticket {
 
 	@Id
@@ -35,10 +42,11 @@ public class Ticket {
 	@Column(name = "updated_at")
 	private LocalDateTime updatedAt;
 
-	public Ticket() {}
+	public Ticket() {
+	}
 
-	public Ticket(Long id, String title, String description, String category, String sentiment,
-			LocalDateTime createdAt, LocalDateTime updatedAt) {
+	public Ticket(Long id, String title, String description, String category, String sentiment, LocalDateTime createdAt,
+			LocalDateTime updatedAt) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -104,9 +112,5 @@ public class Ticket {
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-
-
-
-
 
 }

@@ -17,6 +17,18 @@ import br.com.agcs.exception.TicketNotFoundException;
 import br.com.agcs.repository.TicketRepository;
 import jakarta.transaction.Transactional;
 
+/**
+ * Classe de serviço responsável pela lógica de negócios da entidade Ticket.
+ * 
+ * Responsabilidades:
+ * - Gerenciar operações de criação, listagem e atualização de tickets.
+ * - Converter entidades em DTOs e vice-versa.
+ * - Tratar erros como ticket não encontrado.
+ * - Anotação @Transactional foi adicionada para garantir atomicidade nas operações de escrita.
+ * - Pelas definições dos requisitos o campo "sentiment" não é obrigatório durante a criação do ticket
+ *  desse modo foi definido um valor padrão "Não Informado" se nulo nenhum valor for informado.
+ */
+
 @Service
 public class TicketService {
 
@@ -56,7 +68,7 @@ public class TicketService {
         ticketToCreate.setTitle(newTicket.title());
         ticketToCreate.setDescription(newTicket.description());
         ticketToCreate.setCategory(newTicket.category());
-        ticketToCreate.setSentiment(newTicket.sentiment() != null ? newTicket.sentiment() : "Não Informado");
+        ticketToCreate.setSentiment(newTicket.sentiment() != null ? newTicket.sentiment() : "Não Informado"); //caso nenhum valor seja passado o valor padrão é definido
         ticketToCreate.setCreatedAt(LocalDateTime.now());
         ticketToCreate.setUpdatedAt(LocalDateTime.now());
 

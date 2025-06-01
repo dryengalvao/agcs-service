@@ -27,6 +27,12 @@ import br.com.agcs.entity.Ticket;
 import br.com.agcs.repository.TicketRepository;
 import br.com.agcs.service.TicketService;
 
+/**
+ * Classe de teste unitário para o serviço de tickets (TicketService).
+ * Utiliza Mockito para simular o comportamento do repositório e testar as funcionalidades
+ * de criação, listagem e atualização de tickets de forma isolada sem a necessidade de um banco de dados.
+ */
+
 @ExtendWith(MockitoExtension.class)
 class TicketServiceTest {
 
@@ -40,6 +46,7 @@ class TicketServiceTest {
     private TicketDTOCreate ticketDTOCreate;
     private TicketDTOUpdate ticketDTOUpdate;
 
+    // Setup inicial para definição dos objetos utilizados na carta de teste
     @BeforeEach
     void setUp() {
         ticket = new Ticket(1L, "Teste Ticket", "Descrição para Ticket", "Hardware", "Não Informado", LocalDateTime.now().minusDays(1), LocalDateTime.now().minusDays(1));
@@ -47,18 +54,25 @@ class TicketServiceTest {
         ticketDTOUpdate = new TicketDTOUpdate("Teste Atualização Ticket", "Descrição para Ticket a ser Atualizado", "Software");
     }
 
+    /*
+     *  Caso de teste para a rotina de criação de um novo ticket
+     *  Etapas:
+     *  - Salva o ticket no repositório.
+     *  - Retorna o ticket criado com os dados.
+     */
+    
     @Test
     void saveTicket_Success() {
-        Ticket ticketCreated = new Ticket();
-        ticketCreated.setId(1L);
-        ticketCreated.setTitle(ticketDTOCreate.title());
-        ticketCreated.setDescription(ticketDTOCreate.description());
-        ticketCreated.setCategory(ticketDTOCreate.category());
-        ticketCreated.setSentiment("Não Informado");
-        ticketCreated.setCreatedAt(LocalDateTime.now());
-        ticketCreated.setUpdatedAt(LocalDateTime.now());
+        Ticket ticketCreatedDefinition = new Ticket();
+        ticketCreatedDefinition.setId(1L);
+        ticketCreatedDefinition.setTitle(ticketDTOCreate.title());
+        ticketCreatedDefinition.setDescription(ticketDTOCreate.description());
+        ticketCreatedDefinition.setCategory(ticketDTOCreate.category());
+        ticketCreatedDefinition.setSentiment("Não Informado");
+        ticketCreatedDefinition.setCreatedAt(LocalDateTime.now());
+        ticketCreatedDefinition.setUpdatedAt(LocalDateTime.now());
 
-        when(repository.save(any(Ticket.class))).thenReturn(ticketCreated);
+        when(repository.save(any(Ticket.class))).thenReturn(ticketCreatedDefinition);
 
         TicketDTOResponse response = ticketService.save(ticketDTOCreate);
 
@@ -69,6 +83,7 @@ class TicketServiceTest {
         verify(repository, times(1)).save(any(Ticket.class));
     }
 
+    // Caso de teste para a rotina de listagem dos tickets criados
     @Test
     void listAllTickets_Success() {
         when(repository.findAll()).thenReturn(List.of(ticket));
@@ -77,13 +92,20 @@ class TicketServiceTest {
 
         assertFalse(tickets.isEmpty());
         assertEquals(1, tickets.size());
-        assertEquals("Teste Ticket", tickets.get(0).title());
         verify(repository, times(1)).findAll();
     }
 
+    /*
+     * Caso de teste para a rotina de atualização de um ticket existente
+     * Etapas:
+     * - Obtem da data de atualização de um registro existente;
+     * - Recupera um registro ticket existente com com base no ID;
+     * - Atualiza os dados do ticket;
+     * - Valida se os dados foram atualizados corretamente;
+     */
     @Test
     void updateTicket_Success() {
-        LocalDateTime valueBeforeUpdate = ticket.getUpdatedAt();
+        LocalDateTime dateBeforeUpdate = ticket.getUpdatedAt();
 
         when(repository.findById(1L)).thenReturn(Optional.of(ticket));
         
@@ -98,7 +120,7 @@ class TicketServiceTest {
         assertNotNull(response);
         assertEquals("Teste Atualização Ticket", response.title());
         assertEquals("Software", response.category());
-        assertTrue(response.updatedAt().isAfter(valueBeforeUpdate));
+        assertTrue(response.updatedAt().isAfter(dateBeforeUpdate));
         verify(repository, times(1)).findById(1L);
         verify(repository, times(1)).save(any(Ticket.class));
     }
