@@ -24,9 +24,9 @@ import jakarta.transaction.Transactional;
  * - Gerenciar operações de criação, listagem e atualização de tickets.
  * - Converter entidades em DTOs e vice-versa.
  * - Tratar erros como ticket não encontrado.
- * - Anotação @Transactional foi adicionada para garantir atomicidade nas operações de escrita.
+ * - Anotação @Transactional foi adicionada para garantir atomicidade nas operações de escrita no banco de dados.
  * - Pelas definições dos requisitos o campo "sentiment" não é obrigatório durante a criação do ticket
- *  desse modo foi definido um valor padrão "Não Informado" se nulo nenhum valor for informado.
+ *  desse modo foi definido um valor padrão "Não Informado" se nenhum valor for informado.
  */
 
 @Service

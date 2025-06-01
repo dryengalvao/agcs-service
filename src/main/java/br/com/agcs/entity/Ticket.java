@@ -14,6 +14,9 @@ import jakarta.persistence.Table;
  * informações básicas como título, descrição, categoria e sentimento conforme
  * os requisitos solicitados.
  * 
+ * Os campos campos de data createAt e updatedAt foram adicionados à entidade
+ * para garantir possíveis auditorias sobre em que momento um registro foi
+ * criado e atualizado mantendo as boas práticas.
  */
 
 @Entity

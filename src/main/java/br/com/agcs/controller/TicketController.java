@@ -44,8 +44,10 @@ public class TicketController {
 	@PostMapping
     public ResponseEntity<TicketDTOResponse> create(@Valid @RequestBody TicketDTOCreate newTicket) {
 		
-        logger.info("[POST] Solicitação para criação de um novo ticket recebida");
+        logger.info("Solicitação para criação de um novo ticket recebida - POST");
+        logger.debug("Registro: {}",newTicket);
         TicketDTOResponse ticketCreated = ticketService.save(newTicket);
+        
         return ResponseEntity.status(HttpStatus.CREATED).body(ticketCreated);
         
     }
@@ -53,7 +55,7 @@ public class TicketController {
     @GetMapping
     public List<TicketDTOResponse> list() {
     	
-        logger.info("[GET] Solicitação para listagem de todos os tickets recebida");
+        logger.info("Solicitação para listagem de todos os tickets recebida - GET");
         return ticketService.listAll();
         
     }
@@ -61,7 +63,8 @@ public class TicketController {
     @PutMapping("/{id}")
     public ResponseEntity<TicketDTOResponse> update(@PathVariable Long id, @Valid @RequestBody TicketDTOUpdate updateTicket) {
     	
-        logger.info("[PUT] Solicitação para atualização do ticket ID: {} recebida", id);
+        logger.info("Solicitação para atualização do ticket ID: {} recebida - PUT", id);
+        logger.debug("Registro: {}",updateTicket);
         TicketDTOResponse ticketUpdated = ticketService.update(id, updateTicket);
         return ResponseEntity.ok(ticketUpdated);
         
