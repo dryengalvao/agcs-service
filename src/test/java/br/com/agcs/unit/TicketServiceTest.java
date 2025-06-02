@@ -1,7 +1,6 @@
 package br.com.agcs.unit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -85,16 +84,21 @@ class TicketServiceTest {
 
     // Caso de teste para a rotina de listagem dos tickets criados
     @Test
-    void listAllTickets_Success() {
-        when(repository.findAll()).thenReturn(List.of(ticket));
+    void listAllTickets_MultipleTickets_Success() {
+        Ticket ticket1 = new Ticket(1L, "Ticket 1", "Descrição 1", "Categoria A", "Não Informado", LocalDateTime.now(), LocalDateTime.now());
+        Ticket ticket2 = new Ticket(2L, "Ticket 2", "Descrição 2", "Categoria B", "Não Informado", LocalDateTime.now(), LocalDateTime.now());
+
+        when(repository.findAll()).thenReturn(List.of(ticket1, ticket2));
 
         List<TicketDTOResponse> tickets = ticketService.listAll();
 
-        assertFalse(tickets.isEmpty());
-        assertEquals(1, tickets.size());
+        assertNotNull(tickets);
+        assertEquals(2, tickets.size());
+        assertEquals("Ticket 1", tickets.get(0).title());
+        assertEquals("Ticket 2", tickets.get(1).title());
         verify(repository, times(1)).findAll();
     }
-
+    
     /*
      * Caso de teste para a rotina de atualização de um ticket existente
      * Etapas:

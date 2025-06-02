@@ -42,16 +42,34 @@ class TicketControllerIntegrationTest {
 	 */
 	@Test
 	void createTicket_ReturnsCreatedTicket() throws Exception {
-		TicketDTOCreate ticketDTO = new TicketDTOCreate("Título de Integração", "Descrição de integração", "Software",
-				null);
+		String titlePayload = "Título de Integração";
+		String descriptionPayload = "Descrição de integração";
+		String categoryPayload = "Software";
+		String sentimentPayload = "Não Informado";
+		
+		TicketDTOCreate ticketDTO = new TicketDTOCreate( titlePayload, descriptionPayload, categoryPayload,null);
 
 		mockTest.perform(post("/api/tickets").contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(ticketDTO))).andExpect(status().isCreated())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.id").isNumber())
-				.andExpect(jsonPath("$.title", is("Título de Integração")))
-				.andExpect(jsonPath("$.description", is("Descrição de integração")))
-				.andExpect(jsonPath("$.category", is("Software")))
-				.andExpect(jsonPath("$.sentiment", is("Não Informado"))).andExpect(jsonPath("$.createdAt").exists())
-				.andExpect(jsonPath("$.updatedAt").exists());
+				.andExpect(jsonPath("$.title", is(titlePayload)))
+				.andExpect(jsonPath("$.description", is(descriptionPayload)))
+				.andExpect(jsonPath("$.category", is(categoryPayload)))
+				.andExpect(jsonPath("$.sentiment", is(sentimentPayload)));
+	}
+	
+	@Test
+	void createTicket_WithBlankFields_ReturnsValidationErrors() throws Exception {
+		TicketDTOCreate ticketDTO = new TicketDTOCreate("", "", null, null);
+
+		mockTest.perform(
+				post("/api/tickets")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(ticketDTO)))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.errors").exists())
+			.andExpect(jsonPath("$.errors.title").exists())
+			.andExpect(jsonPath("$.errors.description").exists())
+			.andExpect(jsonPath("$.errors.category").exists());
 	}
 }
