@@ -81,7 +81,22 @@ A aplicação estará disponível em *http://localhost:8086*.
 
 ### Teste Unitário e Integração
 
-Para a execução dos testes execute o comando:
+
+#### Foram implementados os seguintes teste unitários:
+
+- **saveTicket_Success()** : Testa a persistência de um ticket com dados válidos diretamente pela camada de repositório ou serviço, garantindo que ele seja salvo corretamente.
+
+- **updateTicket_Success()** : Verifica se a atualização de um ticket existente com dados válidos é realizada com sucesso e retorna os dados atualizados.
+
+- **listAllTickets_MultipleTickets_Success()** : Garante que múltiplos tickets salvos possam ser listados corretamente, validando a resposta da listagem.
+
+#### Foram implementados os seguintes teste de integração:
+- **createTicket_ReturnsCreatedTicket()** : Verifica se a criação de um ticket via endpoint retorna status 201 (Created) e o corpo com os dados esperados.
+
+- **createTicket_WithBlankFields_ReturnsValidationErrors()** : Testa se a criação de um ticket com campos obrigatórios em branco retorna status 400 (Bad Request) e mensagens de validação apropriadas.
+
+
+#### Para a execução dos testes execute o comando:
 
 ```bash
 mvn test
@@ -192,12 +207,12 @@ Para acessar o banco de dados H2 pelo console: *http://localhost:8086/h2-console
 	}
 ```
 
----
-# Extras
+
+# Recursos Extras
 
 ## Executando a Aplicação em um Container Docker
 
-Como um recurso adicional, o repositório do projeto inclui a possibilidade de subir a aplicação em um container Docker, facilitando a implantação em diferentes ambientes. 
+Como um recurso adicional, o repositório do projeto inclui a possibilidade de subir a aplicação em um container Docker.
 
 ### Requisitos
 
