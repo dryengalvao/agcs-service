@@ -4,6 +4,8 @@ O **AGCS** é uma aplicação backend desenvolvida em Java + Spring Boot para ge
 
 A API permite criar, listar e atualizar tickets, com validações, tratamento de erros, e suporte a monitoramento de saúde da aplicação.
 
+Para acessar a versão em **`Node.js + Express`** acesse [https://github.com/dryengalvao/agcs-service-nodejs]
+
 ## Justificativa da Tecnologia Escolhida
 
 - **Spring Boot**: Escolhido por ser um framework robusto para APIs REST, com suporte nativo a JPA, validação e Actuator, facilitando o desenvolvimento rápido.
